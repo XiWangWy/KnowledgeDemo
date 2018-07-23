@@ -139,6 +139,8 @@ public class FileUploadController {
                                 gaiNianTYEntity.setId(Id);
                                 gaiNianTYRepository.save(gaiNianTYEntity);
                                 break;
+                            default:
+                                break;
                         }
 
                     }
@@ -161,16 +163,32 @@ public class FileUploadController {
      */
     @RequestMapping(value = "download/{name}", method = RequestMethod.GET)
     public void Download(HttpServletResponse res, @PathVariable("name") String name) {
-        System.out.println(name);
-        String fileName = "hzw.jpeg";
+        String path = "";
+        switch (name){
+            case "Origin":
+                break;
+            case "GaiNianBelone":
+                break;
+            case "GaiNianTY":
+                break;
+            case "GaiNian1TO1":
+                break;
+            case "GaiNian1TOMany":
+                break;
+            case "Disease":
+                break;
+            default:
+                break;
+        }
+        String fileName = path.replaceAll(".*/","");
+
         res.setHeader("content-type", "application/octet-stream");
         res.setContentType("application/octet-stream");
         res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
         byte[] buff = new byte[1024];
         BufferedInputStream bis = null;
         OutputStream os;
-        String targetPath = "./downLoadFiles/";
-        File downLoadFile = new File(targetPath+fileName);
+        File downLoadFile = new File(path);
         if (!downLoadFile.exists()){
             try {
                 downLoadFile.createNewFile();
