@@ -1,0 +1,49 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/test
+
+  application:
+    name: mongoweb
+  thymeleaf:
+      cache: false
+      prefix: classpath:/templates/
+      suffix: .html
+      encoding: UTF-8
+      content-type: text/html
+      mode: HTML5
+  http:
+    multipart:
+      max-file-size: 100Mb
+      maxRequestSize: 100Mb
+  redis:
+    port: 6379
+    host: 127.0.0.1
+
+
+  session:
+    store-type: redis
+
+
+server:
+  port: 8888
+#mongodb://dev_xxx:dev_xxx@127.0.0.1:27017
+
+
+#配置日志
+logging:
+  level:
+    org.springframework.web: DEUBG
+    org.springframework.data.mongodb.core: DEBUG
+#    com.yiibai: DEBUG
+#  pattern:
+#    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+#    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+#  file: c:/logs/mylog.log
+
+#spring.redis.port=6379
+#spring.redis.host=127.0.0.1
+#spring.redis.password=******
+#spring.redis.pool.max-active=100
+#spring.redis.pool.max-idle=5
+#spring.redis.pool.max-wait=60000
