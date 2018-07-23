@@ -49,7 +49,21 @@ public class FileUploadController {
     @Autowired
     private GaiNianTYRepository gaiNianTYRepository;
 
+    @Autowired
+    private TreatMentRepository treatMentRepository;
 
+
+    private AchieveGaiNianBelone achieveGaiNianBelone = new AchieveGaiNianBelone();
+
+    private AchieveGaiNian1TOMany achieveGaiNian1TOMany = new AchieveGaiNian1TOMany();
+
+    private AchieveGaiNian1TO1 achieveGaiNian1TO1 = new AchieveGaiNian1TO1();
+
+    private AchieveDisease achieveDisease = new AchieveDisease();
+
+    private AchieveGaiNianTY achieveGaiNianTY = new AchieveGaiNianTY();
+
+    private AchieveTreatMent achieveTreatMent = new AchieveTreatMent();
     /**
      * 上传单个文件
      * @return
@@ -139,6 +153,11 @@ public class FileUploadController {
                                 gaiNianTYEntity.setId(Id);
                                 gaiNianTYRepository.save(gaiNianTYEntity);
                                 break;
+                            case "TreatMent":
+                                TreatMent treatMent = new TreatMent();
+                                SetEntity.setEntityVoid(treatMent,row);
+                                treatMentRepository.save(treatMent);
+                                break;
                             default:
                                 break;
                         }
@@ -165,17 +184,23 @@ public class FileUploadController {
     public void Download(HttpServletResponse res, @PathVariable("name") String name) {
         String path = "";
         switch (name){
-            case "Origin":
-                break;
             case "GaiNianBelone":
+                path = achieveGaiNianBelone.WriteBeloneExcel();
                 break;
             case "GaiNianTY":
+                path = achieveGaiNianTY.WriteBeloneExcel();
                 break;
             case "GaiNian1TO1":
+                path = achieveGaiNian1TO1.WriteBeloneExcel();
                 break;
             case "GaiNian1TOMany":
+                path = achieveGaiNian1TOMany.WriteBeloneExcel();
                 break;
             case "Disease":
+                path = achieveDisease.writeDiseaseExcel();
+                break;
+            case "TreatMent":
+                path = achieveTreatMent.writeExcelTreatMent();
                 break;
             default:
                 break;
