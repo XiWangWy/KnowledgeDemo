@@ -39,11 +39,16 @@ public class FileUploadController {
      */
     @RequestMapping(value = "/upload",method = {RequestMethod.GET})
     public ModelAndView upload() {
+
+
+
+
         return new ModelAndView("uploading");
     }
 
     @RequestMapping(value = "/downloadhtml",method = RequestMethod.GET)
     public ModelAndView download(){
+
         return new ModelAndView("downloading");
     }
 
