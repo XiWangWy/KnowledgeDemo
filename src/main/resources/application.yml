@@ -1,7 +1,7 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/test
+      uri: mongodb://wx:uownx>9fqgE1eLws@dds-bp1f7b56b50093041.mongodb.rds.aliyuncs.com:3717/knowledge-test
 
   application:
     name: mongoweb

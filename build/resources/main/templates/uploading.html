@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>uploadimg.html</title>
+
+    <meta name="keywords" content="keyword1,keyword2,keyword3"></meta>
+    <meta name="description" content="this is my page"></meta>
+    <meta name="content-type" content="text/html; charset=UTF-8"></meta>
+
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+
+</head>
+
+<body>
+<form enctype="multipart/form-data" method="post" action="/upload/Origin">
+    上传概念表<input type="file" name="file" multiple/>
+    <input type="submit" value="上传"/>
+</form>
+
+<form enctype="multipart/form-data" method="post" action="/upload/GaiNianBelone">
+    概念属于表<input type="file" name="file" multiple/>
+    <input type="submit" value="上传"/>
+</form>
+
+<form enctype="multipart/form-data" method="post" action="/upload/GaiNianTY">
+    概念同义表<input type="file" name="file" multiple/>
+    <input type="submit" value="上传"/>
+</form>
+
+<form enctype="multipart/form-data" method="post" action="/upload/GaiNian1TO1">
+    概念1to1<input type="file" name="file" multiple/>
+    <input type="submit" value="上传"/>
+</form>
+
+<form enctype="multipart/form-data" method="post" action="/upload/GaiNian1TOMany">
+    概念1对多<input type="file" name="file" multiple/>
+    <input type="submit" value="上传"/>
+</form>
+
+<form enctype="multipart/form-data" method="post" action="/upload/Disease">
+    病因&诱因表<input type="file" name="file" multiple/>
+    <input type="submit" value="上传"/>
+</form>
+
+<form enctype="multipart/form-data" method="post" action="/upload/TreatMent">
+    处置表<input type="file" name="file" multiple/>
+    <input type="submit" value="上传"/>
+</form>
+
+
+<a href="/download/GaiNianBelone">下载概念属于表</a>
+<a href="/download/GaiNianTY">下载概念同义表</a>
+<a href="/download/GaiNian1TO1">下载概念1to1</a>
+<a href="/download/GaiNian1TOMany">下载概念1对多</a>
+<a href="/download/Disease">下载病因&诱因表</a>
+<a href="/download/TreatMent">下载处置表</a>
+
+<a href="/download/ExportScripts">导出脚本</a>
+</body>
+</html>
