@@ -1,9 +1,9 @@
 package com.hitales.controller;
 
-import com.hitales.Repository.NotionMongoRepository;
+import com.hitales.Repository.*;
 import com.hitales.Utils.FileHelper;
 import com.hitales.Utils.SetEntity;
-import com.hitales.entity.Origin;
+import com.hitales.entity.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -32,8 +32,22 @@ import java.util.regex.Pattern;
 public class FileUploadController {
 
     @Autowired
-    private NotionMongoRepository notionMongoRepository;
+    private DiseaseRepository diseaseRepository;
 
+    @Autowired
+    private GaiNian1TO1Repository gaiNian1TO1Repository;
+
+    @Autowired
+    private GaiNian1TOManyRepository gaiNian1TOManyRepository;
+
+    @Autowired
+    private GaiNianBeloneRepository gaiNianBeloneRepository;
+
+    @Autowired
+    private OrignRepository orignRepository;
+
+    @Autowired
+    private GaiNianTYRepository gaiNianTYRepository;
 
 
     /**
@@ -90,16 +104,41 @@ public class FileUploadController {
                         Row row = sheetexcel.getRow(i);
                         if(row.getLastCellNum() <= 0)
                             continue;
-
+                        String Id;
                         switch (type){
                             case "Origin":
                                 Origin origin = new Origin();
                                 SetEntity.setEntityVoid(origin,row);
-                                notionMongoRepository.save(origin);
+                                orignRepository.save(origin);
                                 break;
-
-
-
+                            case "Disease":
+                                Disease disease = new Disease();
+                                SetEntity.setEntityVoid(disease,row);
+                                diseaseRepository.save(disease);
+                                break;
+                            case "GaiNian1TO1":
+                                GaiNian1TO1Entity gaiNian1TO1Entity = new GaiNian1TO1Entity();
+                                SetEntity.setEntityVoid(gaiNian1TO1Entity,row);
+                                gaiNian1TO1Repository.save(gaiNian1TO1Entity);
+                                break;
+                            case "GaiNian1TOMany":
+                                GaiNian1TOManyEntity gaiNian1TOManyEntity = new GaiNian1TOManyEntity();
+                                SetEntity.setEntityVoid(gaiNian1TOManyEntity,row);
+                                gaiNian1TOManyRepository.save(gaiNian1TOManyEntity);
+                                break;
+                            case "GaiNianBelone":
+                                GaiNianBeloneEntity gaiNianBeloneEntity = new GaiNianBeloneEntity();
+                                SetEntity.setEntityVoid(gaiNianBeloneEntity,row);
+                                gaiNianBeloneRepository.save(gaiNianBeloneEntity);
+                                break;
+                            case "GaiNianTY":
+                                GaiNianTYEntity gaiNianTYEntity = new GaiNianTYEntity();
+                                SetEntity.setEntityVoid(gaiNianTYEntity,row);
+                                GaiNianTYEntity gaiNianTYEntityBefore = gaiNianTYRepository.findByConcept(gaiNianTYEntity.getConcept());
+                                Id = gaiNianTYEntityBefore == null? null :gaiNianTYEntityBefore.getId();
+                                gaiNianTYEntity.setId(Id);
+                                gaiNianTYRepository.save(gaiNianTYEntity);
+                                break;
                         }
 
                     }

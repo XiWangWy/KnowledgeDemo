@@ -20,7 +20,7 @@ public class SetEntity {
     public static void setEntityVoid(Object entity, Row row){
         Field [] fields =entity.getClass().getDeclaredFields();
         List<String> methodName = new ArrayList<>();
-        Arrays.stream(fields).forEach(field -> methodName.add("set"+toUpperCaseFirstOne(field.getName())));
+        Arrays.stream(fields).skip(1).forEach(field -> methodName.add("set"+toUpperCaseFirstOne(field.getName())));
         try {
             for (int i = 0; i < row.getLastCellNum(); i++) {
                 Cell cell = row.getCell(i);
@@ -34,36 +34,6 @@ public class SetEntity {
         }
 
 
-//        Method [] methods = origin.getClass().getMethods();
-//        for (int j = 0; j < row.getLastCellNum(); j++) {
-//            Cell cell = row.getCell(j);
-//            switch (j){
-//                case 0:
-//                    origin.setRID(cell == null?"":cell.toString());
-//                    break;
-//                case 1:
-//                    origin.setEID(cell == null?"":cell.toString());
-//                    break;
-//                case 2:
-//                    origin.setEntityType(cell == null?"":cell.toString());
-//                    break;
-//                case 3:
-//                    origin.setFullInfo(cell == null?"":cell.toString());
-//                    break;
-//                case 4:
-//                    origin.setField(cell == null?"":cell.toString());
-//                    break;
-//                case 5:
-//                    origin.setFieldContent(cell == null?"":cell.toString());
-//                    break;
-//                case 6:
-//                    origin.setTYConcept(cell == null?"":cell.toString());
-//                    break;
-//                default:
-//                    break;
-//            }
-//
-//        }
     }
 
     //首字母转大写
