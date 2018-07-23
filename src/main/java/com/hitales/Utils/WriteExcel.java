@@ -457,7 +457,7 @@ public class WriteExcel {
             row1.createCell(1).setCellValue(diease);
         }
         try {
-            path = "./OriginExcel/处置表.xlsx";
+            path = "./OriginExcel/病因&诱因表.xlsx";
             FileOutputStream fos = new FileOutputStream("./OriginExcel/病因&诱因表.xlsx");
 
             workbook.write(fos);
