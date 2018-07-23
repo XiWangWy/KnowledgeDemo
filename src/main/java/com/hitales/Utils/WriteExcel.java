@@ -16,7 +16,9 @@ import java.util.Map;
  */
 public class WriteExcel {
 
-    public static void writeExcelOrigin(List<String> object ,String[] titles){
+    public static String writeExcelOrigin(List<String> object ,String[] titles){
+
+        String path = "";
 
         XSSFWorkbook workbook =  new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
@@ -37,12 +39,16 @@ public class WriteExcel {
             FileOutputStream fos = null;
             if(titles[0].contains("属于")){
                 fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念属于表.xlsx");
+                path="/KnowledgeDemo/OriginExcel/概念属于表.xlsx";
             }else if(titles[0].contains("别名")){
                 fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念同义表.xlsx");
+                path="/KnowledgeDemo/OriginExcel/概念同义表.xlsx";
             }else if(titles[0].startsWith("相关")){
                 fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念1对1相关表.xlsx");
+                path="/KnowledgeDemo/OriginExcel/概念1对1相关表.xlsx";
             }else if(titles[0].contains("相关")){
                 fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念1对多相关表.xlsx");
+                path="/KnowledgeDemo/OriginExcel/概念1对多相关表.xlsx";
             }
 
             workbook.write(fos);
@@ -51,10 +57,13 @@ public class WriteExcel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return path;
     }
 
-    public static void writeExcel(Map<String,ArrayList<String>> datas,String type){
+    public static String writeExcel(Map<String,ArrayList<String>> datas,String type){
 
+
+        String path = "";
         XSSFWorkbook workbook =  new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
 
@@ -101,12 +110,16 @@ public class WriteExcel {
 
             if(type.equals("概念属于表")){
                 fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念属于表.xlsx");
+                path="/KnowledgeDemo/OriginExcel/概念属于表.xlsx";
             }else if(type.equals("概念同义表")){
                 fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念同义表.xlsx");
+                path="/KnowledgeDemo/OriginExcel/概念同义表.xlsx";
             }else if(type.equals("概念1对1相关表")){
                 fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念1对1相关表.xlsx");
+                path="/KnowledgeDemo/OriginExcel/概念1对1相关表.xlsx";
             }else if(type.equals("概念1对多相关表")){
                 fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念1对多相关表.xlsx");
+                path="/KnowledgeDemo/OriginExcel/概念1对多相关表.xlsx";
             }
             workbook.write(fos);
             System.out.println("写入成功");
@@ -114,9 +127,12 @@ public class WriteExcel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return  path;
     }
 
-    public static void writeExcelMany(ArrayList<ArrayList<JSONObject>> datas){
+    public static String writeExcelMany(ArrayList<ArrayList<JSONObject>> datas){
+
+        String path = "";
 
         XSSFWorkbook workbook =  new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
@@ -160,6 +176,7 @@ public class WriteExcel {
         }
 
         try {
+            path = "/KnowledgeDemo/OriginExcel/病因&诱因表.xlsx";
             FileOutputStream fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/病因&诱因表.xlsx");
             workbook.write(fos);
             System.out.println("写入成功");
@@ -167,10 +184,13 @@ public class WriteExcel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return path;
     }
 
 
-    public static void writeExcelTreatMentOrigin(ArrayList<String> treatMents){
+    public static String writeExcelTreatMentOrigin(ArrayList<String> treatMents){
+
+        String path="";
 
         XSSFWorkbook workbook =  new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
@@ -189,6 +209,7 @@ public class WriteExcel {
             row1.createCell(1).setCellValue(diease);
         }
         try {
+            path="/KnowledgeDemo/OriginExcel/处置表.xlsx";
             FileOutputStream fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/处置表.xlsx");
 
             workbook.write(fos);
@@ -197,10 +218,13 @@ public class WriteExcel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return path;
     }
 
 
-    public static void writeExcelTreatMent(ArrayList<ArrayList<JSONObject>> datas){
+    public static String writeExcelTreatMent(ArrayList<ArrayList<JSONObject>> datas){
+
+        String path = "";
 
         XSSFWorkbook workbook =  new XSSFWorkbook();
         Sheet sheet = workbook.createSheet();
@@ -244,6 +268,7 @@ public class WriteExcel {
         }
 
         try {
+            path = "/KnowledgeDemo/OriginExcel/病因&诱因表.xlsx";
             FileOutputStream fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/病因&诱因表.xlsx");
             workbook.write(fos);
             System.out.println("写入成功");
@@ -251,6 +276,7 @@ public class WriteExcel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return path;
     }
 
 }
