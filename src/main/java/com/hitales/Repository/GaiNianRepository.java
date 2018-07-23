@@ -9,5 +9,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 
 public interface GaiNianRepository extends MongoRepository<GaiNian,String>{
+    public GaiNian findByConcept(String concept);
 
 }

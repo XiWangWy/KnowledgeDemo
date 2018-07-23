@@ -14,34 +14,37 @@ import java.util.Map;
  */
 public class GaiNianUtils {
 
-    @Autowired
-    private GaiNianRepository gaiNianRepository;
+    private GaiNianRepository gaiNianRepository ;
 
     public List<GaiNian> findAll(){
 
         List<GaiNian> datas =  new ArrayList<>();
 
         try {
-           List<GaiNian> gaiNians = gaiNianRepository.findAll();
+            datas = gaiNianRepository.findAll();
        }catch (Exception e){
             return  new ArrayList<>();
        }
        return datas;
     }
 
-    public String writeBelong(){
+    public String writeBelong(GaiNianRepository gaiNianRepository){
+        this.gaiNianRepository = gaiNianRepository;
         return  WriteExcel.writeExcelGaiNianNull(findAll(),"概念属于表");
     }
 
-    public String writeTY(){
+    public String writeTY(GaiNianRepository gaiNianRepository){
+        this.gaiNianRepository = gaiNianRepository;
         return  WriteExcel.writeExcelGaiNianNull(findAll(),"概念同义表");
     }
 
-    public String writeOneToOne(){
+    public String writeOneToOne(GaiNianRepository gaiNianRepository){
+        this.gaiNianRepository = gaiNianRepository;
         return  WriteExcel.writeExcelGaiNianNull(findAll(),"概念1对1相关表");
     }
 
-    public String writeOneToMany(){
+    public String writeOneToMany(GaiNianRepository gaiNianRepository){
+        this.gaiNianRepository = gaiNianRepository;
         return  WriteExcel.writeExcelGaiNianNull(findAll(),"概念1对多相关表");
     }
 

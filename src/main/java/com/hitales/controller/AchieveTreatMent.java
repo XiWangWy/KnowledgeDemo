@@ -18,10 +18,8 @@ import java.util.Set;
  */
 public class AchieveTreatMent {
 
-    @Autowired
     private TreatMentRepository treatMentRepository;
 
-    @Autowired
     private DiseaseRepository diseaseRepository;
 
 
@@ -34,16 +32,34 @@ public class AchieveTreatMent {
         try {
             List<TreatMent> origins = treatMentRepository.findAll();
 
-            ArrayList<JSONObject> tempDatas = new ArrayList<>();
+            List<Disease> origins1 = diseaseRepository.findAll();
+            Set<String> data = new HashSet<>();
             for(TreatMent object: origins){
+                ArrayList<JSONObject> tempDatas = new ArrayList<>();
                 JSONObject object1 =  new JSONObject();
                 String name = object.getName();
                 ArrayList<String> elements = object.getElements();
                 String diease = object.getDiease();
-                object1.put("name",name);
-                object1.put("elements",elements);
-                object1.put("diease",diease);
-                tempDatas.add(object1);
+                if(data.add(diease)) {
+                    object1.put("name", name);
+                    object1.put("elements", elements);
+                    object1.put("diease", diease);
+                    tempDatas.add(object1);
+                    datas.add(tempDatas);
+                }
+            }
+
+            for(Disease object: origins1){
+                ArrayList<JSONObject> tempDatas = new ArrayList<>();
+                JSONObject object1 =  new JSONObject();
+                String name = object.getName();
+                if(data.add(name)){
+                    object1.put("name","");
+                    object1.put("elements",new ArrayList<>());
+                    object1.put("diease",name);
+                    tempDatas.add(object1);
+                    datas.add(tempDatas);
+                }
             }
 
         }catch (Exception e){
@@ -76,7 +92,9 @@ public class AchieveTreatMent {
         return  treatMents;
     }
 
-    public String writeExcelTreatMent(){
+    public String writeExcelTreatMent(TreatMentRepository treatMentRepository, DiseaseRepository diseaseRepository){
+        this.diseaseRepository = diseaseRepository;
+        this.treatMentRepository = treatMentRepository;
 
         if(findAll().isEmpty()){
             return  WriteExcel.writeExcelTreatMentOrigin(findAllTreatMents());

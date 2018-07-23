@@ -9,5 +9,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 
 public interface TreatMentRepository extends MongoRepository<TreatMent,String>{
-
+    public TreatMent findByName(String name);
 }

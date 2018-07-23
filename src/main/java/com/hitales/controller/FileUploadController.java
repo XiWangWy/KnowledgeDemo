@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -67,6 +68,8 @@ public class FileUploadController {
     private AchieveGaiNianTY achieveGaiNianTY = new AchieveGaiNianTY();
 
     private AchieveTreatMent achieveTreatMent = new AchieveTreatMent();
+
+    private GaiNianUtils gaiNianUtils = new GaiNianUtils();
     /**
      * 上传单个文件
      * @return
@@ -119,7 +122,7 @@ public class FileUploadController {
                     XSSFSheet sheetexcel = hssfWorkbook.getSheetAt(0);
                     for (int i = 1; i <= sheetexcel.getLastRowNum(); i++) {
                         Row row = sheetexcel.getRow(i);
-                        if(row.getLastCellNum() <= 0)
+                        if(row == null)
                             continue;
                         String Id;
                         if ("Origin".equals(type)){
@@ -133,9 +136,11 @@ public class FileUploadController {
                             }
                             orignRepository.save(origin);
                         }else if ("Disease".equals(type)){
-                            Disease disease = new Disease();
                             if (row.getLastCellNum() > 2){
                                 String name = row.getCell(0) == null?"":row.getCell(0).toString();
+                                Disease disease = diseaseRepository.findByName(name);
+                                disease = disease==null?new Disease():disease;
+
                                 String condition = row.getCell(1) == null?"":row.getCell(1).toString();
                                 ArrayList<String> list = new ArrayList<>();
                                 for (int j = 2; j < row.getLastCellNum(); j++) {
@@ -149,9 +154,11 @@ public class FileUploadController {
                                 diseaseRepository.save(disease);
                             }
                         }else if ("TreatMent".equals(type)){
-                            TreatMent treatMent =  new TreatMent() ;
                             if (row.getLastCellNum() > 2){
                                 String name = row.getCell(0) == null?"":row.getCell(0).toString();
+                                TreatMent treatMent =  treatMentRepository.findByName(name);
+                                treatMent = treatMent == null?new TreatMent():treatMent;
+
                                 String condition = row.getCell(1) == null?"":row.getCell(1).toString();
                                 ArrayList<String> list = new ArrayList<>();
                                 for (int j = 2; j < row.getLastCellNum(); j++) {
@@ -266,26 +273,26 @@ public class FileUploadController {
      * @param res
      */
     @RequestMapping(value = "download/{name}", method = RequestMethod.GET)
-    public void Download(HttpServletResponse res, @PathVariable("name") String name) {
+    public void Download(HttpServletResponse res, @PathVariable("name") String name) throws UnsupportedEncodingException {
         String path = "";
         switch (name){
             case "GaiNianBelone":
-                path = achieveGaiNianBelone.WriteBeloneExcel();
+                path = gaiNianUtils.writeBelong(gaiNianRepository);
                 break;
             case "GaiNianTY":
-                path = achieveGaiNianTY.WriteBeloneExcel();
+                path = gaiNianUtils.writeTY(gaiNianRepository);
                 break;
             case "GaiNian1TO1":
-                path = achieveGaiNian1TO1.WriteBeloneExcel();
+                path = gaiNianUtils.writeOneToOne(gaiNianRepository);
                 break;
             case "GaiNian1TOMany":
-                path = achieveGaiNian1TOMany.WriteBeloneExcel();
+                path = gaiNianUtils.writeOneToMany(gaiNianRepository);
                 break;
             case "Disease":
-                path = achieveDisease.writeDiseaseExcel();
+                path = achieveDisease.writeDiseaseExcel(diseaseRepository);
                 break;
             case "TreatMent":
-                path = achieveTreatMent.writeExcelTreatMent();
+                path = achieveTreatMent.writeExcelTreatMent(treatMentRepository,diseaseRepository);
                 break;
             case "ExportScripts":
 //                path =
@@ -296,7 +303,7 @@ public class FileUploadController {
 
         res.setHeader("content-type", "application/octet-stream");
         res.setContentType("application/octet-stream");
-        res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+        res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
         byte[] buff = new byte[1024];
         BufferedInputStream bis = null;
         OutputStream os;

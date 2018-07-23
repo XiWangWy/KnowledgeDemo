@@ -17,7 +17,6 @@ import java.util.Set;
  */
 public class AchieveDisease {
 
-    @Autowired
     private DiseaseRepository diseaseRepository;
 
 
@@ -30,8 +29,9 @@ public class AchieveDisease {
         if(origins==null){
             return new ArrayList<>();
         }
-        ArrayList<JSONObject> tempDatas = new ArrayList<>();
+
         for(Disease object: origins){
+            ArrayList<JSONObject> tempDatas = new ArrayList<>();
             JSONObject object1 =  new JSONObject();
             String name = object.getName();
             ArrayList<String> elements = object.getElements();
@@ -40,6 +40,7 @@ public class AchieveDisease {
             object1.put("elements",elements);
             object1.put("condition",condition);
             tempDatas.add(object1);
+            datas.add(tempDatas);
         }
         return  datas;
     }
@@ -66,7 +67,8 @@ public class AchieveDisease {
     }
 
     //上传病因&诱因表
-    public String writeDiseaseExcel(){
+    public String writeDiseaseExcel(DiseaseRepository diseaseRepository){
+        this.diseaseRepository = diseaseRepository;
         if(findAll().isEmpty()){
             return  WriteExcel.writeExcelDieaseOrigin(findAllTreatMents());
         }else {
