@@ -373,7 +373,7 @@ public class FileUploadController {
                 }
             }
         }
-        return path;
+        return "sucess";
     }
 
 
