@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.hitales.Repository.DiseaseRepository;
 import com.hitales.Utils.WriteExcel;
 import com.hitales.entity.Disease;
+import com.hitales.entity.Origin;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -49,16 +50,18 @@ public class AchieveDisease {
 
         Set<String> data = new HashSet<>();
 
-        List<Disease> origins = diseaseRepository.findAll();
-        if(origins==null){
+        try {
+            List<Disease> origins = diseaseRepository.findAll();
+            for(Disease object: origins){
+                String name = object.getName();
+                if(data.add(name)){
+                    treatMents.add(name);
+                }
+            }
+        }catch (Exception e){
             return new ArrayList<>();
         }
-        for(Disease object: origins){
-            String name = object.getName();
-            if(data.add(name)){
-                treatMents.add(name);
-            }
-        }
+
         return  treatMents;
     }
 

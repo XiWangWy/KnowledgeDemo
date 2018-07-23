@@ -30,16 +30,15 @@ public class AchieveGaiNian1TOMany {
 
         Map<String,ArrayList<String>> GaiNiansBelones =  new HashMap<>();
 
-        ArrayList<String> values = new ArrayList<>();
+        try{
+            List<GaiNian1TOManyEntity> origins = gaiNian1TOManyRepository.findAll();
 
-        List<GaiNian1TOManyEntity> origins = gaiNian1TOManyRepository.findAll();
-        if(origins==null){
+            for(GaiNian1TOManyEntity object: origins){
+
+                GaiNiansBelones.put(object.getConcept(),object.getBelongs());
+            }
+        }catch (Exception e){
             return new HashMap<>();
-        }
-
-        for(GaiNian1TOManyEntity object: origins){
-
-            GaiNiansBelones.put(object.getConcept(),object.getBelongs());
         }
         return  GaiNiansBelones;
     }

@@ -30,19 +30,26 @@ public class AchieveTreatMent {
 
         ArrayList<ArrayList<JSONObject>> datas =  new ArrayList<>();
 
-        List<TreatMent> origins = treatMentRepository.findAll();
 
-        ArrayList<JSONObject> tempDatas = new ArrayList<>();
-        for(TreatMent object: origins){
-            JSONObject object1 =  new JSONObject();
-            String name = object.getName();
-            ArrayList<String> elements = object.getElements();
-            String diease = object.getDiease();
-            object1.put("name",name);
-            object1.put("elements",elements);
-            object1.put("diease",diease);
-            tempDatas.add(object1);
+        try {
+            List<TreatMent> origins = treatMentRepository.findAll();
+
+            ArrayList<JSONObject> tempDatas = new ArrayList<>();
+            for(TreatMent object: origins){
+                JSONObject object1 =  new JSONObject();
+                String name = object.getName();
+                ArrayList<String> elements = object.getElements();
+                String diease = object.getDiease();
+                object1.put("name",name);
+                object1.put("elements",elements);
+                object1.put("diease",diease);
+                tempDatas.add(object1);
+            }
+
+        }catch (Exception e){
+            return  new ArrayList<>();
         }
+
         return  datas;
     }
 
@@ -51,16 +58,21 @@ public class AchieveTreatMent {
 
         ArrayList<String> treatMents = new ArrayList<>();
         Set<String> data = new HashSet<>();
-        List<Disease> origins = diseaseRepository.findAll();
-        if(origins==null){
+
+        try {
+            List<Disease> origins = diseaseRepository.findAll();
+
+            for(Disease object: origins){
+                String name = object.getName();
+                if(data.add(name)){
+                    treatMents.add(name);
+                }
+            }
+
+        }catch (Exception e){
             return new ArrayList<>();
         }
-        for(Disease object: origins){
-            String name = object.getName();
-            if(data.add(name)){
-                treatMents.add(name);
-            }
-        }
+
         return  treatMents;
     }
 

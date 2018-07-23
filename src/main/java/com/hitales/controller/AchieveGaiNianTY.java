@@ -29,15 +29,19 @@ public class AchieveGaiNianTY {
         Map<String,ArrayList<String>> GaiNiansBelones =  new HashMap<>();
 
 
-        List<GaiNianTYEntity> origins = gaiNianTYRepository.findAll();
-        if(origins==null){
+        try {
+            List<GaiNianTYEntity> origins = gaiNianTYRepository.findAll();
+
+
+            for(GaiNianTYEntity object: origins){
+
+                GaiNiansBelones.put(object.getConcept(),object.getBelongs());
+            }
+
+        }catch (Exception e){
             return new HashMap<>();
         }
 
-        for(GaiNianTYEntity object: origins){
-
-            GaiNiansBelones.put(object.getConcept(),object.getBelongs());
-        }
         return  GaiNiansBelones;
     }
 

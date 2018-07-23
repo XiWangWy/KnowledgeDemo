@@ -23,16 +23,16 @@ public class AchieveOrigin {
 
         List<String> GaiNians =  new ArrayList<>();
 
-
-        List<Origin> origins = achieveOrignRepository.findAll();
-        if(origins==null){
-            return new ArrayList<>();
-        }
-        Set<String> data = new HashSet<>();
-        for(Origin o: origins){
-            if(data.add(o.getTYConcept())){
-                GaiNians.add(o.getTYConcept());
+        try {
+            List<Origin> origins = achieveOrignRepository.findAll();
+            Set<String> data = new HashSet<>();
+            for(Origin o: origins){
+                if(data.add(o.getTYConcept())){
+                    GaiNians.add(o.getTYConcept());
+                }
             }
+        }catch (Exception e){
+            return new ArrayList<>();
         }
         return  GaiNians;
     }
