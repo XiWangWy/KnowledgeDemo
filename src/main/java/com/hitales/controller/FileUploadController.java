@@ -2,6 +2,7 @@ package com.hitales.controller;
 
 import com.hitales.Repository.NotionMongoRepository;
 import com.hitales.Utils.FileHelper;
+import com.hitales.Utils.SetEntity;
 import com.hitales.entity.Origin;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
@@ -9,6 +10,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +33,8 @@ public class FileUploadController {
 
     @Autowired
     private NotionMongoRepository notionMongoRepository;
+
+
 
     /**
      * 上传单个文件
@@ -72,9 +76,9 @@ public class FileUploadController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "uploadOrigin",method = RequestMethod.POST)
+    @RequestMapping(value = "upload/{type}",method = RequestMethod.POST)
     @ResponseBody
-    public String upload(HttpServletRequest request){
+    public String uploadOrigin(HttpServletRequest request,@PathVariable("type") String type){
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
         try {
             for (MultipartFile file1 : files) {
@@ -84,38 +88,20 @@ public class FileUploadController {
                     XSSFSheet sheetexcel = hssfWorkbook.getSheetAt(0);
                     for (int i = 1; i <= sheetexcel.getLastRowNum(); i++) {
                         Row row = sheetexcel.getRow(i);
-                        Origin origin = new Origin();
-                        for (int j = 0; j < row.getLastCellNum(); j++) {
-                            Cell cell = row.getCell(j);
-                            switch (j){
-                                case 0:
-                                    origin.setRID(cell == null?"":cell.toString());
-                                    break;
-                                case 1:
-                                    origin.setEID(cell == null?"":cell.toString());
-                                    break;
-                                case 2:
-                                    origin.setEntityType(cell == null?"":cell.toString());
-                                    break;
-                                case 3:
-                                    origin.setFullInfo(cell == null?"":cell.toString());
-                                    break;
-                                case 4:
-                                    origin.setField(cell == null?"":cell.toString());
-                                    break;
-                                case 5:
-                                    origin.setFieldContent(cell == null?"":cell.toString());
-                                    break;
-                                case 6:
-                                    origin.setTYConcept(cell == null?"":cell.toString());
-                                    break;
-                                default:
-                                    break;
-                            }
-                        }
                         if(row.getLastCellNum() <= 0)
                             continue;
-                        notionMongoRepository.save(origin);
+
+                        switch (type){
+                            case "Origin":
+                                Origin origin = new Origin();
+                                SetEntity.setEntityVoid(origin,row);
+                                notionMongoRepository.save(origin);
+                                break;
+
+
+
+                        }
+
                     }
                 }
             }
@@ -134,17 +120,18 @@ public class FileUploadController {
      * 下载文件
      * @param res
      */
-    @RequestMapping(value = "download", method = RequestMethod.GET)
-    public void Download(HttpServletResponse res) {
-        String fileName = "time.png";
+    @RequestMapping(value = "download/{name}", method = RequestMethod.GET)
+    public void Download(HttpServletResponse res, @PathVariable("name") String name) {
+        System.out.println(name);
+        String fileName = "hzw.jpeg";
         res.setHeader("content-type", "application/octet-stream");
         res.setContentType("application/octet-stream");
         res.setHeader("Content-Disposition", "attachment;filename=" + fileName);
         byte[] buff = new byte[1024];
         BufferedInputStream bis = null;
         OutputStream os;
-//        String targetPath = "";
-        File downLoadFile = new File(fileName);
+        String targetPath = "./downLoadFiles/";
+        File downLoadFile = new File(targetPath+fileName);
         if (!downLoadFile.exists()){
             try {
                 downLoadFile.createNewFile();
@@ -154,7 +141,7 @@ public class FileUploadController {
         }
         try {
             os = res.getOutputStream();
-            bis = new BufferedInputStream(new FileInputStream(downLoadFile));
+                bis = new BufferedInputStream(new FileInputStream(downLoadFile));
             int i = bis.read(buff);
             while (i != -1) {
                 os.write(buff, 0, buff.length);
