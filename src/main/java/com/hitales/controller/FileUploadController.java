@@ -52,6 +52,9 @@ public class FileUploadController {
     @Autowired
     private TreatMentRepository treatMentRepository;
 
+    @Autowired
+    private GaiNianRepository gaiNianRepository;
+
 
     private AchieveGaiNianBelone achieveGaiNianBelone = new AchieveGaiNianBelone();
 
@@ -119,48 +122,130 @@ public class FileUploadController {
                         if(row.getLastCellNum() <= 0)
                             continue;
                         String Id;
-                        switch (type){
-                            case "Origin":
-                                Origin origin = new Origin();
-                                SetEntity.setEntityVoid(origin,row);
-                                orignRepository.save(origin);
-                                break;
-                            case "Disease":
-                                Disease disease = new Disease();
-                                SetEntity.setEntityVoid(disease,row);
+                        if ("Origin".equals(type)){
+                            Origin origin = new Origin();
+                            SetEntity.setEntityVoid(origin,row);
+                            String name = origin.getTYConcept();
+                            if (gaiNianRepository.findByConcept(name) == null){
+                                GaiNian gaiNian = new GaiNian();
+                                gaiNian.setConcept(name);
+                                gaiNianRepository.save(gaiNian);
+                            }
+                            orignRepository.save(origin);
+                        }else if ("Disease".equals(type)){
+                            Disease disease = new Disease();
+                            if (row.getLastCellNum() > 2){
+                                String name = row.getCell(0) == null?"":row.getCell(0).toString();
+                                String condition = row.getCell(1) == null?"":row.getCell(1).toString();
+                                ArrayList<String> list = new ArrayList<>();
+                                for (int j = 2; j < row.getLastCellNum(); j++) {
+                                    Cell cell = row.getCell(j);
+                                    if (cell == null)break;
+                                    list.add(cell.toString());
+                                }
+                                disease.setName(name);
+                                disease.setCondition(condition);
+                                disease.setElements(list);
                                 diseaseRepository.save(disease);
-                                break;
-                            case "GaiNian1TO1":
-                                GaiNian1TO1Entity gaiNian1TO1Entity = new GaiNian1TO1Entity();
-                                SetEntity.setEntityVoid(gaiNian1TO1Entity,row);
-                                gaiNian1TO1Repository.save(gaiNian1TO1Entity);
-                                break;
-                            case "GaiNian1TOMany":
-                                GaiNian1TOManyEntity gaiNian1TOManyEntity = new GaiNian1TOManyEntity();
-                                SetEntity.setEntityVoid(gaiNian1TOManyEntity,row);
-                                gaiNian1TOManyRepository.save(gaiNian1TOManyEntity);
-                                break;
-                            case "GaiNianBelone":
-                                GaiNianBeloneEntity gaiNianBeloneEntity = new GaiNianBeloneEntity();
-                                SetEntity.setEntityVoid(gaiNianBeloneEntity,row);
-                                gaiNianBeloneRepository.save(gaiNianBeloneEntity);
-                                break;
-                            case "GaiNianTY":
-                                GaiNianTYEntity gaiNianTYEntity = new GaiNianTYEntity();
-                                SetEntity.setEntityVoid(gaiNianTYEntity,row);
-                                GaiNianTYEntity gaiNianTYEntityBefore = gaiNianTYRepository.findByConcept(gaiNianTYEntity.getConcept());
-                                Id = gaiNianTYEntityBefore == null? null :gaiNianTYEntityBefore.getId();
-                                gaiNianTYEntity.setId(Id);
-                                gaiNianTYRepository.save(gaiNianTYEntity);
-                                break;
-                            case "TreatMent":
-                                TreatMent treatMent = new TreatMent();
-                                SetEntity.setEntityVoid(treatMent,row);
+                            }
+                        }else if ("TreatMent".equals(type)){
+                            TreatMent treatMent =  new TreatMent() ;
+                            if (row.getLastCellNum() > 2){
+                                String name = row.getCell(0) == null?"":row.getCell(0).toString();
+                                String condition = row.getCell(1) == null?"":row.getCell(1).toString();
+                                ArrayList<String> list = new ArrayList<>();
+                                for (int j = 2; j < row.getLastCellNum(); j++) {
+                                    Cell cell = row.getCell(j);
+                                    if (cell == null)break;
+                                    list.add(cell.toString());
+                                }
+                                treatMent.setName(name);
+                                treatMent.setDiease(condition);
+                                treatMent.setElements(list);
                                 treatMentRepository.save(treatMent);
-                                break;
-                            default:
-                                break;
+                            }
+                        }else{
+                            if (row.getLastCellNum() > 1 && row.getCell(0) != null){
+                                ArrayList<String> list = new ArrayList<>();
+                                String name = row.getCell(0).toString();
+                                GaiNian gainian = gaiNianRepository.findByConcept(name);
+
+                                gainian = gainian == null?new GaiNian():gainian;
+                                for (int j = 1; j < row.getLastCellNum(); j++) {
+                                    Cell cell = row.getCell(j);
+                                    if (cell == null)break;
+                                    list.add(cell.toString());
+                                    if (gaiNianRepository.findByConcept(cell.toString())==null){
+                                        GaiNian gaiNianChildren = new GaiNian();
+                                        gaiNianChildren.setConcept(cell.toString());
+                                        gaiNianRepository.save(gaiNianChildren);
+                                    }
+                                }
+
+                                if (type.equals("GaiNian1TO1")){
+                                    gainian.setOneToOne(list);
+                                }else if (type.equals("GaiNian1TOMany")){
+                                    gainian.setOneToMany(list);
+                                } else if (type.equals("GaiNianBelone")) {
+                                    gainian.setBelongs(list);
+                                }else if (type.equals("GaiNianTY")){
+                                    gainian.setTy(list);
+                                }
+                                gaiNianRepository.save(gainian);
+                            }
+
                         }
+
+
+//
+//                        switch (type){
+//                            case "Origin":
+//                                Origin origin = new Origin();
+//                                SetEntity.setEntityVoid(origin,row);
+//                                orignRepository.save(origin);
+//                                break;
+//                            case "Disease":
+//                                Disease disease = new Disease();
+//                                SetEntity.setEntityVoid(disease,row);
+//                                diseaseRepository.save(disease);
+//                                break;
+//                            case "GaiNian1TO1":
+//                                GaiNian1TO1Entity gaiNian1TO1Entity = new GaiNian1TO1Entity();
+//                                SetEntity.setEntityVoid(gaiNian1TO1Entity,row);
+//                                gaiNian1TO1Repository.save(gaiNian1TO1Entity);
+//                                break;
+//                            case "GaiNian1TOMany":
+//                                GaiNian1TOManyEntity gaiNian1TOManyEntity = new GaiNian1TOManyEntity();
+//                                SetEntity.setEntityVoid(gaiNian1TOManyEntity,row);
+//                                gaiNian1TOManyRepository.save(gaiNian1TOManyEntity);
+//                                break;
+//                            case "GaiNianBelone":
+//                                GaiNianBeloneEntity gaiNianBeloneEntity = new GaiNianBeloneEntity();
+//                                SetEntity.setEntityVoid(gaiNianBeloneEntity,row);
+//                                List<String> list = gaiNianBeloneEntity.getBelongs();
+//                                gaiNianBeloneRepository.save(gaiNianBeloneEntity);
+//                                for (String concept : list){
+//                                    gaiNianBeloneEntity = new GaiNianBeloneEntity();
+//                                    gaiNianBeloneEntity.setConcept(concept);
+//                                    gaiNianBeloneRepository.save(gaiNianBeloneEntity);
+//                                }
+//                                break;
+//                            case "GaiNianTY":
+//                                GaiNianTYEntity gaiNianTYEntity = new GaiNianTYEntity();
+//                                SetEntity.setEntityVoid(gaiNianTYEntity,row);
+//                                GaiNianTYEntity gaiNianTYEntityBefore = gaiNianTYRepository.findByConcept(gaiNianTYEntity.getConcept());
+//                                Id = gaiNianTYEntityBefore == null? null :gaiNianTYEntityBefore.getId();
+//                                gaiNianTYEntity.setId(Id);
+//                                gaiNianTYRepository.save(gaiNianTYEntity);
+//                                break;
+//                            case "TreatMent":
+//                                TreatMent treatMent = new TreatMent();
+//                                SetEntity.setEntityVoid(treatMent,row);
+//                                treatMentRepository.save(treatMent);
+//                                break;
+//                            default:
+//                                break;
+//                        }
 
                     }
                 }
@@ -202,6 +287,8 @@ public class FileUploadController {
             case "TreatMent":
                 path = achieveTreatMent.writeExcelTreatMent();
                 break;
+            case "ExportScripts":
+//                path =
             default:
                 break;
         }

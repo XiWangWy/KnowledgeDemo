@@ -16,8 +16,9 @@ public class Disease {
 
     private String name;
 
+    private String condition;
+
     private ArrayList<String> elements;
 
-    private String condition;
 
 }
