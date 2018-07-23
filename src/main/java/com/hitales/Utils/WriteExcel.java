@@ -243,6 +243,40 @@ public class WriteExcel {
         return path;
     }
 
+    public static String writeExcelDieaseOrigin(ArrayList<String> treatMents){
+
+        String path="";
+
+        XSSFWorkbook workbook =  new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet();
+
+        Row row = sheet.createRow(0);
+
+        row.createCell(0).setCellValue("概念名称");
+        row.createCell(1).setCellValue("因素1");
+        row.createCell(2).setCellValue("因素2");
+        row.createCell(3).setCellValue("因素3");
+        row.createCell(4).setCellValue("因素4");
+        row.createCell(5).setCellValue("判断条件");
+
+        for(int i=0;i<treatMents.size();i++){
+            Row row1 = sheet.createRow(i+1);
+            String diease = treatMents.get(i);
+            row1.createCell(1).setCellValue(diease);
+        }
+        try {
+            path="/KnowledgeDemo/OriginExcel/处置表.xlsx";
+            FileOutputStream fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/病因&诱因表.xlsx");
+
+            workbook.write(fos);
+            System.out.println("写入成功");
+            fos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return path;
+    }
+
 
     public static String writeExcelTreatMent(ArrayList<ArrayList<JSONObject>> datas){
 

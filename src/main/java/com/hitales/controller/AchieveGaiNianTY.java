@@ -1,9 +1,7 @@
 package com.hitales.controller;
 
-import com.hitales.Repository.GaiNianBeloneRepository;
 import com.hitales.Repository.GaiNianTYRepository;
 import com.hitales.Utils.WriteExcel;
-import com.hitales.entity.GaiNianBeloneEntity;
 import com.hitales.entity.GaiNianTYEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,13 +20,14 @@ public class AchieveGaiNianTY {
     @Autowired
     private GaiNianTYRepository gaiNianTYRepository;
 
+    private AchieveOrigin achieveOrigin =  new AchieveOrigin();
+
 
     //生成属于表
     private Map<String,ArrayList<String>> findAll(){
 
         Map<String,ArrayList<String>> GaiNiansBelones =  new HashMap<>();
 
-        ArrayList<String> values = new ArrayList<>();
 
         List<GaiNianTYEntity> origins = gaiNianTYRepository.findAll();
 
@@ -42,6 +41,12 @@ public class AchieveGaiNianTY {
 
     //上传概念属于表
     public String WriteBeloneExcel(){
-        return WriteExcel.writeExcel(findAll(),"概念同义表");
+        if(findAll().isEmpty()){
+            return achieveOrigin.uploadOrigin("概念同义表");
+        }else{
+            return WriteExcel.writeExcel(findAll(),"概念同义表");
+        }
+
+
     }
 }

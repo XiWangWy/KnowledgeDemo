@@ -6,7 +6,9 @@ import com.hitales.entity.Origin;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by zhubo on 2018/7/23.
@@ -24,10 +26,13 @@ public class AchieveOrigin {
 
         List<String> GaiNians =  new ArrayList<>();
 
-        List<Origin> origins = achieveOrignRepository.findAll();
 
+        List<Origin> origins = achieveOrignRepository.findAll();
+        Set<String> data = new HashSet<>();
         for(Origin o: origins){
-            GaiNians.add(o.getTYConcept());
+            if(data.add(o.getTYConcept())){
+                GaiNians.add(o.getTYConcept());
+            }
         }
         return  GaiNians;
     }

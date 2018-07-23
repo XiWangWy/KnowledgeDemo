@@ -7,7 +7,9 @@ import com.hitales.entity.Disease;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by zhubo on 2018/7/23.
@@ -42,22 +44,25 @@ public class AchieveDisease {
 
         ArrayList<String> treatMents = new ArrayList<>();
 
+        Set<String> data = new HashSet<>();
+
         List<Disease> origins = diseaseRepository.findAll();
         for(Disease object: origins){
             String name = object.getName();
-            treatMents.add(name);
+            if(data.add(name)){
+                treatMents.add(name);
+            }
         }
         return  treatMents;
     }
 
     //上传病因&诱因表
     public String writeDiseaseExcel(){
+        if(findAll().isEmpty()){
+            return  WriteExcel.writeExcelDieaseOrigin(findAllTreatMents());
+        }else {
+            return WriteExcel.writeExcelMany(findAll());
+        }
 
-        return WriteExcel.writeExcelMany(findAll());
-    }
-
-    //下载处置表
-    public String writeTreatMent(){
-        return  WriteExcel.writeExcelTreatMentOrigin(findAllTreatMents());
     }
 }

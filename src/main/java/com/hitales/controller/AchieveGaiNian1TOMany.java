@@ -22,6 +22,8 @@ public class AchieveGaiNian1TOMany {
     @Autowired
     private GaiNian1TOManyRepository gaiNian1TOManyRepository;
 
+    private AchieveOrigin achieveOrigin =  new AchieveOrigin();
+
 
     //生成属于表
     private Map<String,ArrayList<String>> findAll(){
@@ -42,6 +44,10 @@ public class AchieveGaiNian1TOMany {
 
     //上传概念属于表
     public String WriteBeloneExcel(){
-        return WriteExcel.writeExcel(findAll(),"概念1对多相关表");
+        if(findAll().isEmpty()){
+            return achieveOrigin.uploadOrigin("概念1对多相关表");
+        }else {
+            return WriteExcel.writeExcel(findAll(),"概念1对多相关表");
+        }
     }
 }

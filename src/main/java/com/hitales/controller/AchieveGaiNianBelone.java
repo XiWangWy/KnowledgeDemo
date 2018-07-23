@@ -20,13 +20,14 @@ public class AchieveGaiNianBelone {
     @Autowired
     private GaiNianBeloneRepository achieveGaiNianBeloneRepository;
 
+    private AchieveOrigin achieveOrigin =  new AchieveOrigin();
+
 
     //生成属于表
     private Map<String,ArrayList<String>> findAll(){
 
         Map<String,ArrayList<String>> GaiNiansBelones =  new HashMap<>();
 
-        ArrayList<String> values = new ArrayList<>();
 
         List<GaiNianBeloneEntity> origins = achieveGaiNianBeloneRepository.findAll();
 
@@ -40,6 +41,11 @@ public class AchieveGaiNianBelone {
 
     //上传概念属于表
     public String WriteBeloneExcel(){
-        return WriteExcel.writeExcel(findAll(),"概念属于表");
+        if(findAll().isEmpty()){
+            return achieveOrigin.uploadOrigin("概念属于表");
+        }else{
+            return WriteExcel.writeExcel(findAll(),"概念属于表");
+        }
+
     }
 }

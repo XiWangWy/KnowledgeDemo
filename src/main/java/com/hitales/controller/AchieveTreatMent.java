@@ -1,13 +1,17 @@
 package com.hitales.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hitales.Repository.DiseaseRepository;
 import com.hitales.Repository.TreatMentRepository;
 import com.hitales.Utils.WriteExcel;
+import com.hitales.entity.Disease;
 import com.hitales.entity.TreatMent;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by zhubo on 2018/7/23.
@@ -16,6 +20,9 @@ public class AchieveTreatMent {
 
     @Autowired
     private TreatMentRepository treatMentRepository;
+
+    @Autowired
+    private DiseaseRepository diseaseRepository;
 
 
 
@@ -40,9 +47,29 @@ public class AchieveTreatMent {
     }
 
 
+    private ArrayList<String> findAllTreatMents(){
+
+        ArrayList<String> treatMents = new ArrayList<>();
+        Set<String> data = new HashSet<>();
+        List<Disease> origins = diseaseRepository.findAll();
+        for(Disease object: origins){
+            String name = object.getName();
+            if(data.add(name)){
+                treatMents.add(name);
+            }
+        }
+        return  treatMents;
+    }
+
     public String writeExcelTreatMent(){
 
-        return WriteExcel.writeExcelTreatMent(findAll());
+        if(findAll().isEmpty()){
+            return  WriteExcel.writeExcelTreatMentOrigin(findAllTreatMents());
+
+        }else {
+            return WriteExcel.writeExcelTreatMent(findAll());
+        }
+
     }
 
 }
