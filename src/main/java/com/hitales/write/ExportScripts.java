@@ -46,8 +46,8 @@ public class ExportScripts {
 
         for (GaiNian gaiNian : list){
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("('").append(xuhao).append("':'").append(gaiNian.getConcept())
-                    .append("'{type:\"").append(gaiNian.getConcept()).append("\"}),");
+            stringBuilder.append("(`").append(xuhao).append("`:`").append(gaiNian.getConcept())
+                    .append("`{type:\"").append(gaiNian.getConcept()).append("\"}),");
             listGaiNian.add(stringBuilder);
             gainianList.add(gaiNian.getConcept());
             xuhao ++;
@@ -162,7 +162,7 @@ public class ExportScripts {
         List<StringBuilder> returnlist = new ArrayList();
         list.forEach(s -> {
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("('").append(gainianlist.indexOf(concept)).append("`)-[:`").append(typename).append("` ]->(`")
+            stringBuilder.append("(`").append(gainianlist.indexOf(concept)).append("`)-[:`").append(typename).append("` ]->(`")
                     .append(gainianlist.indexOf(s)).append("`),");
 
         });
@@ -184,8 +184,8 @@ public class ExportScripts {
 //
 //        for (GaiNianBeloneEntity gaiNianBeloneEntity:gaiNianBeloneEntityList){
 //            StringBuilder stringBuilder = new StringBuilder();
-//            stringBuilder.append("('").append(xuhao).append("':'").append(gaiNianBeloneEntity.getConcept())
-//                    .append("'{type:\"").append(gaiNianBeloneEntity.getConcept()).append("\"}),");
+//            stringBuilder.append("(`").append(xuhao).append("`:`").append(gaiNianBeloneEntity.getConcept())
+//                    .append("`{type:\"").append(gaiNianBeloneEntity.getConcept()).append("\"}),");
 //            listGaiNian.add(stringBuilder);
 //            concept.add(gaiNianBeloneEntity.getConcept());
 //            xuhao++;
@@ -197,7 +197,7 @@ public class ExportScripts {
 //            StringBuilder stringBuilder = new StringBuilder();
 //            if (belong != null){
 //                for (String s : belong){
-//                    stringBuilder.append("('").append(concept.indexOf(conceptstr)).append("`)-[:`属于` ]->(`")
+//                    stringBuilder.append("(`").append(concept.indexOf(conceptstr)).append("`)-[:`属于` ]->(`")
 //                            .append(concept.indexOf(s)).append("`),");
 //                }
 //            }
@@ -219,8 +219,8 @@ public class ExportScripts {
 //
 //        for (GaiNianTYEntity gaiNianBeloneEntity:gaiNianBeloneEntityList){
 //            StringBuilder stringBuilder = new StringBuilder();
-//            stringBuilder.append("('").append(xuhao).append("':'").append(gaiNianBeloneEntity.getConcept())
-//                    .append("'{type:\"").append(gaiNianBeloneEntity.getConcept()).append("\"}),");
+//            stringBuilder.append("(`").append(xuhao).append("`:`").append(gaiNianBeloneEntity.getConcept())
+//                    .append("`{type:\"").append(gaiNianBeloneEntity.getConcept()).append("\"}),");
 //            listGaiNian.add(stringBuilder);
 //            concept.add(gaiNianBeloneEntity.getConcept());
 //            xuhao++;
@@ -232,7 +232,7 @@ public class ExportScripts {
 //            StringBuilder stringBuilder = new StringBuilder();
 //            if (belong != null){
 //                for (String s : belong){
-//                    stringBuilder.append("('").append(concept.indexOf(conceptstr)).append("`)-[:`别名` ]->(`")
+//                    stringBuilder.append("(`").append(concept.indexOf(conceptstr)).append("`)-[:`别名` ]->(`")
 //                            .append(concept.indexOf(s)).append("`),");
 //                }
 //            }
