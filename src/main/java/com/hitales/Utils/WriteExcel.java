@@ -60,17 +60,17 @@ public class WriteExcel {
         try {
             FileOutputStream fos = null;
             if(type.equals("概念属于表")){
-                fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念属于表.xlsx");
-                path="/KnowledgeDemo/OriginExcel/概念属于表.xlsx";
+                fos = new FileOutputStream("./OriginExcel/概念属于表.xlsx");
+                path="./OriginExcel/概念属于表.xlsx";
             }else if(type.equals("概念同义表")){
-                fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念同义表.xlsx");
-                path="/KnowledgeDemo/OriginExcel/概念同义表.xlsx";
+                fos = new FileOutputStream("./OriginExcel/概念同义表.xlsx");
+                path="./OriginExcel/概念同义表.xlsx";
             }else if(type.equals("概念1对1相关表")){
-                fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念1对1相关表.xlsx");
-                path="/KnowledgeDemo/OriginExcel/概念1对1相关表.xlsx";
+                fos = new FileOutputStream("./OriginExcel/概念1对1相关表.xlsx");
+                path="./OriginExcel/概念1对1相关表.xlsx";
             }else if(type.equals("相概念1对多相关表关")){
-                fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念1对多相关表.xlsx");
-                path="/KnowledgeDemo/OriginExcel/概念1对多相关表.xlsx";
+                fos = new FileOutputStream("./OriginExcel/概念1对多相关表.xlsx");
+                path="./OriginExcel/概念1对多相关表.xlsx";
             }
 
             workbook.write(fos);
@@ -131,17 +131,17 @@ public class WriteExcel {
             FileOutputStream fos = null;
 
             if(type.equals("概念属于表")){
-                fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念属于表.xlsx");
-                path="/KnowledgeDemo/OriginExcel/概念属于表.xlsx";
+                fos = new FileOutputStream("./OriginExcel/概念属于表.xlsx");
+                path="./OriginExcel/概念属于表.xlsx";
             }else if(type.equals("概念同义表")){
-                fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念同义表.xlsx");
-                path="/KnowledgeDemo/OriginExcel/概念同义表.xlsx";
+                fos = new FileOutputStream("./OriginExcel/概念同义表.xlsx");
+                path="./OriginExcel/概念同义表.xlsx";
             }else if(type.equals("概念1对1相关表")){
-                fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念1对1相关表.xlsx");
-                path="/KnowledgeDemo/OriginExcel/概念1对1相关表.xlsx";
+                fos = new FileOutputStream("./OriginExcel/概念1对1相关表.xlsx");
+                path="./OriginExcel/概念1对1相关表.xlsx";
             }else if(type.equals("概念1对多相关表")){
-                fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念1对多相关表.xlsx");
-                path="/KnowledgeDemo/OriginExcel/概念1对多相关表.xlsx";
+                fos = new FileOutputStream("./OriginExcel/概念1对多相关表.xlsx");
+                path="./OriginExcel/概念1对多相关表.xlsx";
             }
             workbook.write(fos);
             System.out.println("写入成功");
@@ -198,8 +198,8 @@ public class WriteExcel {
         }
 
         try {
-            path = "/KnowledgeDemo/OriginExcel/病因&诱因表.xlsx";
-            FileOutputStream fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/病因&诱因表.xlsx");
+            path = "./OriginExcel/病因&诱因表.xlsx";
+            FileOutputStream fos = new FileOutputStream("./OriginExcel/病因&诱因表.xlsx");
             workbook.write(fos);
             System.out.println("写入成功");
             fos.close();
@@ -231,8 +231,8 @@ public class WriteExcel {
             row1.createCell(1).setCellValue(diease);
         }
         try {
-            path="/KnowledgeDemo/OriginExcel/处置表.xlsx";
-            FileOutputStream fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/处置表.xlsx");
+            path="./OriginExcel/处置表.xlsx";
+            FileOutputStream fos = new FileOutputStream("./OriginExcel/处置表.xlsx");
 
             workbook.write(fos);
             System.out.println("写入成功");
@@ -265,8 +265,8 @@ public class WriteExcel {
             row1.createCell(1).setCellValue(diease);
         }
         try {
-            path="/KnowledgeDemo/OriginExcel/处置表.xlsx";
-            FileOutputStream fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/病因&诱因表.xlsx");
+            path="./OriginExcel/处置表.xlsx";
+            FileOutputStream fos = new FileOutputStream("./OriginExcel/病因&诱因表.xlsx");
 
             workbook.write(fos);
             System.out.println("写入成功");
@@ -324,8 +324,8 @@ public class WriteExcel {
         }
 
         try {
-            path = "/KnowledgeDemo/OriginExcel/病因&诱因表.xlsx";
-            FileOutputStream fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/病因&诱因表.xlsx");
+            path = "./OriginExcel/病因&诱因表.xlsx";
+            FileOutputStream fos = new FileOutputStream("./OriginExcel/病因&诱因表.xlsx");
             workbook.write(fos);
             System.out.println("写入成功");
             fos.close();
