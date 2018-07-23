@@ -1,6 +1,6 @@
 package com.hitales.Repository;
 
-import com.hitales.entity.GaiNianEntity;
+import com.hitales.entity.Disease;
 import com.hitales.entity.Origin;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
@@ -8,6 +8,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * Created by zhubo on 2018/7/23.
  */
 
-public interface OriginRepository extends MongoRepository<Origin,String>{
+public interface DiseaseRepository extends MongoRepository<Disease,String>{
 
 }
