@@ -64,8 +64,12 @@ public class ExportScripts {
                 relation.addAll(dou(gaiNian.getOneToOne(),"相关",gainianList,gaiNian.getConcept()));
             }
             if (gaiNian.getOneToMany() != null){
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append("(`").append(xuhao).append("` : Node) ,");
+                listGaiNian.add(stringBuilder);
                 List<StringBuilder> many= douOneToMany(gaiNian.getOneToMany(),gainianList,gaiNian.getConcept(),xuhao);
                 relation.addAll(many);
+                gainianList.add("");
                 xuhao ++;
             }
         }
@@ -78,6 +82,7 @@ public class ExportScripts {
                 stringBuilder.append("(`").append(xuhao).append("` : `判断条件:").append(disease.getCondition()).append("` {type:\"判断条件:")
                         .append(disease.getCondition()).append("\"}) ,");
                 listGaiNian.add(stringBuilder);
+                gainianList.add("");
                 xuhao ++;
             }
 
@@ -134,10 +139,8 @@ public class ExportScripts {
     //斗一对多
     private List<StringBuilder> douOneToMany(List<String> list,List<String> gainianlist,String concept,int xuhao) {
         List<StringBuilder> returnlist = new ArrayList();
+
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("(`").append(xuhao).append("` : Node) ,");
-        returnlist.add(stringBuilder);
-        stringBuilder = new StringBuilder();
         stringBuilder.append("(`").append(gainianlist.indexOf(concept)).append("`)-[:`组合相关` ]->(`").append(xuhao).append("`),");
         returnlist.add(stringBuilder);
         list.forEach(s -> {

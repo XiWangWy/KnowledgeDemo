@@ -10,6 +10,10 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -291,7 +295,7 @@ public class FileUploadController {
      * @param res
      */
     @RequestMapping(value = "download/{name}", method = RequestMethod.GET)
-    public String Download(HttpServletResponse res, @PathVariable("name") String name) throws UnsupportedEncodingException {
+    public void  Download(HttpServletResponse res, @PathVariable("name") String name) throws UnsupportedEncodingException, FileNotFoundException {
         String path = "";
         switch (name){
             case "GaiNianBelone":
@@ -342,6 +346,8 @@ public class FileUploadController {
 //            }
 //        }
 
+
+        //-------------
         byte[] buff = new byte[1024];
         BufferedInputStream bis = null;
         OutputStream os;
@@ -355,12 +361,12 @@ public class FileUploadController {
         }
         try {
             os = res.getOutputStream();
-                bis = new BufferedInputStream(new FileInputStream(downLoadFile));
-            int i = bis.read(buff);
-            while (i != -1) {
-                os.write(buff, 0, buff.length);
+            bis = new BufferedInputStream(new FileInputStream(downLoadFile));
+            int nRead;
+            while ((nRead = bis.read(buff, 0, buff.length)) != -1) {
+                os.write(buff, 0, nRead);
                 os.flush();
-                i = bis.read(buff);
+//                i = bis.read(buff);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -373,7 +379,22 @@ public class FileUploadController {
                 }
             }
         }
-        return "sucess";
+
+        System.out.println("sucess");
+
+
+
+//        File file = new File(path);
+//        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+//
+//        return ResponseEntity.ok()
+//                .header(HttpHeaders.CONTENT_DISPOSITION,
+//                        "attachment;filename=" + fileName)
+//                .contentType(MediaType.APPLICATION_PDF).contentLength(file.length())
+//                .body(resource);
+
+
+
     }
 
 
