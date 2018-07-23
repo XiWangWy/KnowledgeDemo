@@ -101,15 +101,15 @@ public class WriteExcel {
         if(count1>0){
             for(int i=0;i<count1;i++){
                 if (type.equals("概念属于表")) {
-                    row.createCell(1).setCellValue("属于"+(count1+1));
+                    row.createCell(i+1).setCellValue("属于"+(count1+1));
 
                 } else if (type.equals("概念同义表") ) {
-                    row.createCell(1).setCellValue("别名"+(count1+1));
+                    row.createCell(i+1).setCellValue("别名"+(count1+1));
 
                 } else if (type.equals("概念1对1相关表")) {
-                    row.createCell(1).setCellValue("相关"+(count1+1));
+                    row.createCell(i+1).setCellValue("相关"+(count1+1));
                 }else if(type.equals("概念1对多相关表")){
-                    row.createCell(1).setCellValue("且相关"+(count1+1));
+                    row.createCell(i+1).setCellValue("且相关"+(count1+1));
                 }
             }
         }
