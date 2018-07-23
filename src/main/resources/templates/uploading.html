@@ -12,9 +12,37 @@
 </head>
 
 <body>
-<form enctype="multipart/form-data" method="post" action="/uploadOrigin">
+<form enctype="multipart/form-data" method="post" action="/upload/Origin">
     上传概念表<input type="file" name="file" multiple/>
     <input type="submit" value="上传"/>
 </form>
+
+<form enctype="multipart/form-data" method="post" action="/upload/GaiNianBelone">
+    概念属于表2<input type="file" name="file" multiple/>
+    <input type="submit" value="上传"/>
+</form>
+
+<form enctype="multipart/form-data" method="post" action="/upload/GaiNianTY">
+    概念同义表<input type="file" name="file" multiple/>
+    <input type="submit" value="上传"/>
+</form>
+
+<form enctype="multipart/form-data" method="post" action="/upload/GaiNian1TO1">
+    概念1to1<input type="file" name="file" multiple/>
+    <input type="submit" value="上传"/>
+</form>
+
+<form enctype="multipart/form-data" method="post" action="/upload/GaiNian1TOMany">
+    概念1对多<input type="file" name="file" multiple/>
+    <input type="submit" value="上传"/>
+</form>
+
+<form enctype="multipart/form-data" method="post" action="/upload/Disease">
+    病因&诱因表<input type="file" name="file" multiple/>
+    <input type="submit" value="上传"/>
+</form>
+
+
+<a href="/download/Notion">下载概念表</a>
 </body>
 </html>
