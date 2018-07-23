@@ -4,6 +4,7 @@ import com.hitales.Repository.*;
 import com.hitales.Utils.FileHelper;
 import com.hitales.Utils.SetEntity;
 import com.hitales.entity.*;
+import com.hitales.write.ExportScripts;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -70,6 +71,7 @@ public class FileUploadController {
     private AchieveTreatMent achieveTreatMent = new AchieveTreatMent();
 
     private GaiNianUtils gaiNianUtils = new GaiNianUtils();
+
     /**
      * 上传单个文件
      * @return
@@ -151,6 +153,14 @@ public class FileUploadController {
                                 disease.setName(name);
                                 disease.setCondition(condition);
                                 disease.setElements(list);
+                                for (String s : list){
+                                    GaiNian gaiNian = gaiNianRepository.findByConcept(s);
+                                    if (gaiNian == null){
+                                        gaiNian = new GaiNian();
+                                        gaiNian.setConcept(s);
+                                        gaiNianRepository.save(gaiNian);
+                                    }
+                                }
                                 diseaseRepository.save(disease);
                             }
                         }else if ("TreatMent".equals(type)){
@@ -169,6 +179,14 @@ public class FileUploadController {
                                 treatMent.setName(name);
                                 treatMent.setDiease(condition);
                                 treatMent.setElements(list);
+                                for (String s : list){
+                                    GaiNian gaiNian = gaiNianRepository.findByConcept(s);
+                                    if (gaiNian == null){
+                                        gaiNian = new GaiNian();
+                                        gaiNian.setConcept(s);
+                                        gaiNianRepository.save(gaiNian);
+                                    }
+                                }
                                 treatMentRepository.save(treatMent);
                             }
                         }else{
@@ -273,7 +291,7 @@ public class FileUploadController {
      * @param res
      */
     @RequestMapping(value = "download/{name}", method = RequestMethod.GET)
-    public void Download(HttpServletResponse res, @PathVariable("name") String name) throws UnsupportedEncodingException {
+    public String Download(HttpServletResponse res, @PathVariable("name") String name) throws UnsupportedEncodingException {
         String path = "";
         switch (name){
             case "GaiNianBelone":
@@ -295,7 +313,8 @@ public class FileUploadController {
                 path = achieveTreatMent.writeExcelTreatMent(treatMentRepository,diseaseRepository);
                 break;
             case "ExportScripts":
-//                path =
+                ExportScripts exportScripts = new ExportScripts(diseaseRepository,treatMentRepository,gaiNianRepository);
+                path = exportScripts.getOrigin();
             default:
                 break;
         }
@@ -304,6 +323,25 @@ public class FileUploadController {
         res.setHeader("content-type", "application/octet-stream");
         res.setContentType("application/octet-stream");
         res.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
+
+//        FileWriter fw = null;
+//        BufferedWriter bufferedWriter =null;
+//        try {
+//            StringBuilder sb = new StringBuilder();
+//            fw = new FileWriter("./OriginExcel/test.txt");
+//            bufferedWriter= new BufferedWriter(fw);
+//            bufferedWriter.write(path);
+//        }catch (Exception e){
+//           e.printStackTrace();
+//        }finally {
+//            try {
+//                bufferedWriter.close();
+//                fw.close();
+//            }catch (Exception e){
+//               e.printStackTrace();
+//            }
+//        }
+
         byte[] buff = new byte[1024];
         BufferedInputStream bis = null;
         OutputStream os;
@@ -335,7 +373,7 @@ public class FileUploadController {
                 }
             }
         }
-        System.out.println("success");
+        return path;
     }
 
 
