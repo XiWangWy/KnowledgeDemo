@@ -41,7 +41,7 @@ public class AchieveGaiNianTY {
 
 
     //上传概念属于表
-    public void WriteBeloneExcel(){
-        WriteExcel.writeExcel(findAll(),"概念同义表");
+    public String WriteBeloneExcel(){
+        return WriteExcel.writeExcel(findAll(),"概念同义表");
     }
 }

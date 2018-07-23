@@ -51,13 +51,13 @@ public class AchieveDisease {
     }
 
     //上传病因&诱因表
-    public void writeDiseaseExcel(){
+    public String writeDiseaseExcel(){
 
-        WriteExcel.writeExcelMany(findAll());
+        return WriteExcel.writeExcelMany(findAll());
     }
 
     //下载处置表
-    public void writeTreatMent(){
-        WriteExcel.writeExcelTreatMentOrigin(findAllTreatMents());
+    public String writeTreatMent(){
+        return  WriteExcel.writeExcelTreatMentOrigin(findAllTreatMents());
     }
 }

@@ -40,9 +40,9 @@ public class AchieveTreatMent {
     }
 
 
-    public void writeExcelTreatMent(){
+    public String writeExcelTreatMent(){
 
-        WriteExcel.writeExcelTreatMent(findAll());
+        return WriteExcel.writeExcelTreatMent(findAll());
     }
 
 }
