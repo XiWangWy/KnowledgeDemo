@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class WriteExcel {
 
-    public static String writeExcelOrigin(List<String> object ,String[] titles){
+    public static String writeExcelOrigin(List<String> object,String type){
 
         String path = "";
 
@@ -26,8 +26,30 @@ public class WriteExcel {
         Row row = sheet.createRow(0);
 
         row.createCell(0).setCellValue("概念名称");
-        for(int i=0;i<titles.length;i++){
-            row.createCell(i+1).setCellValue(titles[i]);
+
+        if(type.equals("概念属于表")){
+            row.createCell(1).setCellValue("属于1");
+            row.createCell(2).setCellValue("属于1");
+            row.createCell(3).setCellValue("属于1");
+            row.createCell(4).setCellValue("属于1");
+
+        }else if(type.equals("概念同义表")){
+            row.createCell(1).setCellValue("别名1");
+            row.createCell(2).setCellValue("别名2");
+            row.createCell(3).setCellValue("别名3");
+            row.createCell(4).setCellValue("别名4");
+
+        }else if(type.equals("概念1对1相关表")){
+            row.createCell(1).setCellValue("相关1");
+            row.createCell(2).setCellValue("相关2");
+            row.createCell(3).setCellValue("相关3");
+            row.createCell(4).setCellValue("相关4");
+
+        }else if(type.equals("概念1对多相关表")){
+            row.createCell(1).setCellValue("且相关1");
+            row.createCell(2).setCellValue("且相关2");
+            row.createCell(3).setCellValue("且相关3");
+            row.createCell(4).setCellValue("且相关4");
         }
 
         for(int i=0;i<object.size();i++){
@@ -37,16 +59,16 @@ public class WriteExcel {
         }
         try {
             FileOutputStream fos = null;
-            if(titles[0].contains("属于")){
+            if(type.equals("概念属于表")){
                 fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念属于表.xlsx");
                 path="/KnowledgeDemo/OriginExcel/概念属于表.xlsx";
-            }else if(titles[0].contains("别名")){
+            }else if(type.equals("概念同义表")){
                 fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念同义表.xlsx");
                 path="/KnowledgeDemo/OriginExcel/概念同义表.xlsx";
-            }else if(titles[0].startsWith("相关")){
+            }else if(type.equals("概念1对1相关表")){
                 fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念1对1相关表.xlsx");
                 path="/KnowledgeDemo/OriginExcel/概念1对1相关表.xlsx";
-            }else if(titles[0].contains("相关")){
+            }else if(type.equals("相概念1对多相关表关")){
                 fos = new FileOutputStream("/KnowledgeDemo/OriginExcel/概念1对多相关表.xlsx");
                 path="/KnowledgeDemo/OriginExcel/概念1对多相关表.xlsx";
             }

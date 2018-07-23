@@ -36,18 +36,8 @@ public class AchieveOrigin {
     /**
      * 上传所有原始表
      */
-    public String uploadOrigin(){
-        String[] titles={"属于1","属于2","属于3","属于4"};
-        String path = WriteExcel.writeExcelOrigin(findAll(),titles);
-
-        String[] titles1={"别名1","别名2","别名3","别名4"};
-        path =WriteExcel.writeExcelOrigin(findAll(),titles1);
-
-        String[] titles2={"相关1","相关2","相关3","相关4"};
-        path =WriteExcel.writeExcelOrigin(findAll(),titles2);
-
-        String[]  titles3={"且相关1","且相关2","且相关3","且相关4"};
-        path =WriteExcel.writeExcelOrigin(findAll(),titles3);
+    public String uploadOrigin(String type){
+        String path = WriteExcel.writeExcelOrigin(findAll(),type);
         return  path;
     }
 }
