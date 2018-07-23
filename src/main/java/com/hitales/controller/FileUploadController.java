@@ -1,6 +1,15 @@
 package com.hitales.controller;
 
+import com.hitales.Repository.NotionMongoRepository;
 import com.hitales.Utils.FileHelper;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,12 +22,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Created by wangxi on 18/7/3.
  */
 @Controller
 public class FileUploadController {
+
+    @Autowired
+    private NotionMongoRepository notionMongoRepository;
 
     /**
      * 上传单个文件
@@ -59,12 +72,26 @@ public class FileUploadController {
     @ResponseBody
     public String upload(HttpServletRequest request){
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
-        MultipartFile file;
-        for (int i = 0; i < files.size(); ++i) {
-            file = files.get(i);
-            String targetPath = "./uploadFiles/";
-            FileHelper.writeClientDataToPath(file,targetPath);
+        try {
+            for (MultipartFile file1 : files) {
+                if (Pattern.compile(".*(.xls|.xlsx|.xlsm)$").matcher(file1.getName()).matches()) {
+                    FileInputStream inputStream = new FileInputStream((File) file1);
+                    XSSFWorkbook hssfWorkbook = new XSSFWorkbook(inputStream);
+                    XSSFSheet sheetexcel = hssfWorkbook.getSheetAt(0);
+                    for (int i = 0; i < sheetexcel.getLastRowNum(); i++) {
+                        Row row = sheetexcel.getRow(i);
+                        
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+
+//            String targetPath = "./uploadFiles/";
+//            FileHelper.writeClientDataToPath(file,targetPath);
+
         return "upload successful";
     }
 
