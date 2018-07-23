@@ -30,6 +30,9 @@ public class AchieveGaiNianBelone {
 
 
         List<GaiNianBeloneEntity> origins = achieveGaiNianBeloneRepository.findAll();
+        if(origins==null){
+            return new HashMap<>();
+        }
 
         for(GaiNianBeloneEntity object: origins){
 

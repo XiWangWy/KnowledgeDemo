@@ -33,6 +33,9 @@ public class AchieveGaiNian1TOMany {
         ArrayList<String> values = new ArrayList<>();
 
         List<GaiNian1TOManyEntity> origins = gaiNian1TOManyRepository.findAll();
+        if(origins==null){
+            return new HashMap<>();
+        }
 
         for(GaiNian1TOManyEntity object: origins){
 

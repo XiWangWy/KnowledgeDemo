@@ -30,6 +30,9 @@ public class AchieveGaiNianTY {
 
 
         List<GaiNianTYEntity> origins = gaiNianTYRepository.findAll();
+        if(origins==null){
+            return new HashMap<>();
+        }
 
         for(GaiNianTYEntity object: origins){
 

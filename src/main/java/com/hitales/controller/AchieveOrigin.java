@@ -5,10 +5,7 @@ import com.hitales.Utils.WriteExcel;
 import com.hitales.entity.Origin;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by zhubo on 2018/7/23.
@@ -28,6 +25,9 @@ public class AchieveOrigin {
 
 
         List<Origin> origins = achieveOrignRepository.findAll();
+        if(origins==null){
+            return new ArrayList<>();
+        }
         Set<String> data = new HashSet<>();
         for(Origin o: origins){
             if(data.add(o.getTYConcept())){

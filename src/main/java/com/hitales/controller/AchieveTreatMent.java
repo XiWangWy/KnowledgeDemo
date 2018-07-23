@@ -52,6 +52,9 @@ public class AchieveTreatMent {
         ArrayList<String> treatMents = new ArrayList<>();
         Set<String> data = new HashSet<>();
         List<Disease> origins = diseaseRepository.findAll();
+        if(origins==null){
+            return new ArrayList<>();
+        }
         for(Disease object: origins){
             String name = object.getName();
             if(data.add(name)){

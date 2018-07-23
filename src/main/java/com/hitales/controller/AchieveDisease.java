@@ -26,6 +26,9 @@ public class AchieveDisease {
 
         List<Disease> origins = diseaseRepository.findAll();
 
+        if(origins==null){
+            return new ArrayList<>();
+        }
         ArrayList<JSONObject> tempDatas = new ArrayList<>();
         for(Disease object: origins){
             JSONObject object1 =  new JSONObject();
@@ -47,6 +50,9 @@ public class AchieveDisease {
         Set<String> data = new HashSet<>();
 
         List<Disease> origins = diseaseRepository.findAll();
+        if(origins==null){
+            return new ArrayList<>();
+        }
         for(Disease object: origins){
             String name = object.getName();
             if(data.add(name)){

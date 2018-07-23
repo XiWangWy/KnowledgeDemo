@@ -34,6 +34,10 @@ public class AchieveGaiNian1TO1 {
 
         List<GaiNian1TO1Entity> origins = gaiNian1TO1Repository.findAll();
 
+        if(origins==null){
+            return new HashMap<>();
+        }
+
         for(GaiNian1TO1Entity object: origins){
 
             GaiNiansBelones.put(object.getConcept(),object.getBelongs());
