@@ -2,11 +2,9 @@ package com.hitales.controller;
 
 import com.hitales.Repository.NotionMongoRepository;
 import com.hitales.Utils.FileHelper;
+import com.hitales.entity.Origin;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -73,19 +72,50 @@ public class FileUploadController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "upload",method = RequestMethod.POST)
+    @RequestMapping(value = "uploadOrigin",method = RequestMethod.POST)
     @ResponseBody
     public String upload(HttpServletRequest request){
         List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
         try {
             for (MultipartFile file1 : files) {
-                if (Pattern.compile(".*(.xls|.xlsx|.xlsm)$").matcher(file1.getName()).matches()) {
-                    FileInputStream inputStream = new FileInputStream((File) file1);
+                if (Pattern.compile(".*(xls|xlsx|xlsm)$").matcher(file1.getOriginalFilename()).matches()) {
+                    InputStream inputStream =file1.getInputStream();
                     XSSFWorkbook hssfWorkbook = new XSSFWorkbook(inputStream);
                     XSSFSheet sheetexcel = hssfWorkbook.getSheetAt(0);
-                    for (int i = 0; i < sheetexcel.getLastRowNum(); i++) {
+                    for (int i = 1; i <= sheetexcel.getLastRowNum(); i++) {
                         Row row = sheetexcel.getRow(i);
-                        
+                        Origin origin = new Origin();
+                        for (int j = 0; j < row.getLastCellNum(); j++) {
+                            Cell cell = row.getCell(j);
+                            switch (j){
+                                case 0:
+                                    origin.setRID(cell == null?"":cell.toString());
+                                    break;
+                                case 1:
+                                    origin.setEID(cell == null?"":cell.toString());
+                                    break;
+                                case 2:
+                                    origin.setEntityType(cell == null?"":cell.toString());
+                                    break;
+                                case 3:
+                                    origin.setFullInfo(cell == null?"":cell.toString());
+                                    break;
+                                case 4:
+                                    origin.setField(cell == null?"":cell.toString());
+                                    break;
+                                case 5:
+                                    origin.setFieldContent(cell == null?"":cell.toString());
+                                    break;
+                                case 6:
+                                    origin.setTYConcept(cell == null?"":cell.toString());
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        if(row.getLastCellNum() <= 0)
+                            continue;
+                        notionMongoRepository.save(origin);
                     }
                 }
             }
