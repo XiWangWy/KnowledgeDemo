@@ -42,13 +42,19 @@
     <input type="submit" value="上传"/>
 </form>
 
+<form enctype="multipart/form-data" method="post" action="/upload/TreatMent">
+    处置表<input type="file" name="file" multiple/>
+    <input type="submit" value="上传"/>
+</form>
 
-<a href="/download/Origin">下载概念表</a>
+
 <a href="/download/GaiNianBelone">下载概念属于表</a>
 <a href="/download/GaiNianTY">下载概念同义表</a>
 <a href="/download/GaiNian1TO1">下载概念1to1</a>
 <a href="/download/GaiNian1TOMany">下载概念1对多</a>
 <a href="/download/Disease">下载病因&诱因表</a>
 <a href="/download/TreatMent">下载处置表</a>
+
+<a href="/download/ExportScripts">导出脚本</a>
 </body>
 </html>
