@@ -295,6 +295,7 @@ public class WriteExcel {
         Row row = sheet.createRow(0);
 
         row.createCell(0).setCellValue("概念名称");
+        row.createCell(1).setCellValue("判断条件");
         int count=0;
         for(int i=0;i<datas.size();i++){
             ArrayList<JSONObject> objects = datas.get(i);
@@ -306,9 +307,8 @@ public class WriteExcel {
             }
         }
         for(int i=0;i<count;i++){
-            row.createCell(i+1).setCellValue("因素"+(i+1));
+            row.createCell(i+2).setCellValue("因素"+(i+1));
         }
-        row.createCell(count+1).setCellValue("判断条件");
 
         for(int i=0;i<datas.size();i++){
             ArrayList<JSONObject> objects = datas.get(i);
@@ -386,11 +386,11 @@ public class WriteExcel {
         Row row = sheet.createRow(0);
 
         row.createCell(0).setCellValue("概念名称");
-        row.createCell(1).setCellValue("因素1");
-        row.createCell(2).setCellValue("因素2");
-        row.createCell(3).setCellValue("因素3");
-        row.createCell(4).setCellValue("因素4");
-        row.createCell(5).setCellValue("判断条件");
+        row.createCell(1).setCellValue("判断条件");
+        row.createCell(2).setCellValue("因素1");
+        row.createCell(3).setCellValue("因素2");
+        row.createCell(4).setCellValue("因素3");
+        row.createCell(5).setCellValue("因素4");
 
         for(int i=0;i<treatMents.size();i++){
             Row row1 = sheet.createRow(i+1);
