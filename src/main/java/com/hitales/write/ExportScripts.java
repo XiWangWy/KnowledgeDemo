@@ -164,9 +164,8 @@ public class ExportScripts {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("(`").append(gainianlist.indexOf(concept)).append("`)-[:`").append(typename).append("` ]->(`")
                     .append(gainianlist.indexOf(s)).append("`),");
-
+            returnlist.add(stringBuilder);
         });
-
 
         return returnlist;
     }
