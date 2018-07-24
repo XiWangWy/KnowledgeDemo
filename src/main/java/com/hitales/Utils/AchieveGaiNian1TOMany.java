@@ -1,8 +1,7 @@
-package com.hitales.controller;
+package com.hitales.Utils;
 
-import com.hitales.Repository.GaiNianTYRepository;
-import com.hitales.Utils.WriteExcel;
-import com.hitales.entity.GaiNianTYEntity;
+import com.hitales.Repository.GaiNian1TOManyRepository;
+import com.hitales.entity.GaiNian1TOManyEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -15,10 +14,10 @@ import java.util.Map;
  */
 
 
-public class AchieveGaiNianTY {
+public class AchieveGaiNian1TOMany {
 
     @Autowired
-    private GaiNianTYRepository gaiNianTYRepository;
+    private GaiNian1TOManyRepository gaiNian1TOManyRepository;
 
     private AchieveOrigin achieveOrigin =  new AchieveOrigin();
 
@@ -28,20 +27,16 @@ public class AchieveGaiNianTY {
 
         Map<String,ArrayList<String>> GaiNiansBelones =  new HashMap<>();
 
+        try{
+            List<GaiNian1TOManyEntity> origins = gaiNian1TOManyRepository.findAll();
 
-        try {
-            List<GaiNianTYEntity> origins = gaiNianTYRepository.findAll();
-
-
-            for(GaiNianTYEntity object: origins){
+            for(GaiNian1TOManyEntity object: origins){
 
                 GaiNiansBelones.put(object.getConcept(),object.getBelongs());
             }
-
         }catch (Exception e){
             return new HashMap<>();
         }
-
         return  GaiNiansBelones;
     }
 
@@ -49,11 +44,9 @@ public class AchieveGaiNianTY {
     //上传概念属于表
     public String WriteBeloneExcel(){
         if(findAll().isEmpty()){
-            return achieveOrigin.uploadOrigin("概念同义表");
-        }else{
-            return WriteExcel.writeExcel(findAll(),"概念同义表");
+            return achieveOrigin.uploadOrigin("概念1对多相关表");
+        }else {
+            return WriteExcel.writeExcel(findAll(),"概念1对多相关表");
         }
-
-
     }
 }

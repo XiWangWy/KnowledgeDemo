@@ -1,4 +1,4 @@
-package com.hitales.controller;
+package com.hitales.Utils;
 
 import com.hitales.Repository.OrignRepository;
 import com.hitales.Utils.WriteExcel;

@@ -1,4 +1,4 @@
-package com.hitales.controller;
+package com.hitales.Utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hitales.Repository.DiseaseRepository;
