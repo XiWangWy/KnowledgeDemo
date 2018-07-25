@@ -22,87 +22,54 @@ public class AchieveTreatMent {
 
     private DiseaseRepository diseaseRepository;
 
+    /**
+     * 查询处置表(去重)
+     * @return 处置集合
+     */
+    private List<TreatMent> findAllTreatMent(){
 
+        List<TreatMent> treatMents = new ArrayList<>();
 
-    private ArrayList<ArrayList<JSONObject>> findAll(){
-
-        ArrayList<ArrayList<JSONObject>> datas =  new ArrayList<>();
-
-
-        try {
-            List<TreatMent> origins = treatMentRepository.findAll();
-
-            List<Disease> origins1 = diseaseRepository.findAll();
-            Set<String> data = new HashSet<>();
-            for(TreatMent object: origins){
-                ArrayList<JSONObject> tempDatas = new ArrayList<>();
-                JSONObject object1 =  new JSONObject();
-                String name = object.getName();
-                ArrayList<String> elements = object.getElements();
-                String diease = object.getDiease();
-                if(data.add(diease)) {
-                    object1.put("name", name);
-                    object1.put("elements", elements);
-                    object1.put("diease", diease);
-                    tempDatas.add(object1);
-                    datas.add(tempDatas);
-                }
-            }
-
-            for(Disease object: origins1){
-                ArrayList<JSONObject> tempDatas = new ArrayList<>();
-                JSONObject object1 =  new JSONObject();
-                String name = object.getName();
-                if(data.add(name)){
-                    object1.put("name","");
-                    object1.put("elements",new ArrayList<>());
-                    object1.put("diease",name);
-                    tempDatas.add(object1);
-                    datas.add(tempDatas);
-                }
-            }
-
-        }catch (Exception e){
-            return  new ArrayList<>();
-        }
-
-        return  datas;
-    }
-
-
-    private ArrayList<String> findAllTreatMents(){
-
-        ArrayList<String> treatMents = new ArrayList<>();
         Set<String> data = new HashSet<>();
 
         try {
-            List<Disease> origins = diseaseRepository.findAll();
+            List<TreatMent> treatMentsTemp = treatMentRepository.findAll();//处置表
 
-            for(Disease object: origins){
-                String name = object.getName();
-                if(data.add(name)){
-                    treatMents.add(name);
+            List<Disease> diseases = diseaseRepository.findAll();//病因&诱因表
+
+            if(treatMentsTemp.size()==0 && diseases.size()==0){
+                return  new ArrayList<>();
+            }else {
+                for(TreatMent treatMent : treatMentsTemp){
+                    //依据不为空的情况，可以重名
+                    if(treatMent.getElements().size()!=0){
+                        treatMents.add(treatMent);
+
+                        data.add(treatMent.getDiease());
+                    }else if(data.add(treatMent.getDiease())){
+                        treatMents.add(treatMent);
+                    }
+                }
+                //默认从病因&诱因表概念生成
+                for(Disease disease : diseases){
+                    if(data.add(disease.getName())){
+                        TreatMent treatMent = new TreatMent();
+                        treatMent.setName("");
+                        treatMent.setDiease(disease.getName());
+                        treatMent.setElements(new ArrayList<>());
+                        treatMents.add(treatMent);
+                    }
                 }
             }
-
         }catch (Exception e){
             return new ArrayList<>();
         }
-
         return  treatMents;
     }
 
     public String writeExcelTreatMent(TreatMentRepository treatMentRepository, DiseaseRepository diseaseRepository){
         this.diseaseRepository = diseaseRepository;
         this.treatMentRepository = treatMentRepository;
-
-        if(findAll().isEmpty()){
-            return  WriteExcel.writeExcelTreatMentOrigin(findAllTreatMents());
-
-        }else {
-            return WriteExcel.writeExcelTreatMent(findAll());
-        }
-
+        return WriteExcel.writeExcelTreatMents(findAllTreatMent());
     }
-
 }

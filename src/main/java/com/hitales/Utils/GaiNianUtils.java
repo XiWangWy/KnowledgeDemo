@@ -18,34 +18,34 @@ public class GaiNianUtils {
 
     public List<GaiNian> findAll(){
 
-        List<GaiNian> datas =  new ArrayList<>();
+        List<GaiNian> gaiNians;
 
         try {
-            datas = gaiNianRepository.findAll();
+            gaiNians = gaiNianRepository.findAll();
        }catch (Exception e){
             return  new ArrayList<>();
        }
-       return datas;
+       return gaiNians;
     }
 
     public String writeBelong(GaiNianRepository gaiNianRepository){
         this.gaiNianRepository = gaiNianRepository;
-        return  WriteExcel.writeExcelGaiNianNull(findAll(),"概念属于表");
+        return  WriteExcel.writeExcelGaiNianExcel(findAll(),"概念属于表");
     }
 
     public String writeTY(GaiNianRepository gaiNianRepository){
         this.gaiNianRepository = gaiNianRepository;
-        return  WriteExcel.writeExcelGaiNianNull(findAll(),"概念同义表");
+        return  WriteExcel.writeExcelGaiNianExcel(findAll(),"概念同义表");
     }
 
     public String writeOneToOne(GaiNianRepository gaiNianRepository){
         this.gaiNianRepository = gaiNianRepository;
-        return  WriteExcel.writeExcelGaiNianNull(findAll(),"概念1对1相关表");
+        return  WriteExcel.writeExcelGaiNianExcel(findAll(),"概念1对1相关表");
     }
 
     public String writeOneToMany(GaiNianRepository gaiNianRepository){
         this.gaiNianRepository = gaiNianRepository;
-        return  WriteExcel.writeExcelGaiNianNull(findAll(),"概念1对多相关表");
+        return  WriteExcel.writeExcelGaiNianExcel(findAll(),"概念1对多相关表");
     }
 
 }

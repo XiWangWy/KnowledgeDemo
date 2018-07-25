@@ -35,19 +35,7 @@ public class FileUploadController {
     private DiseaseRepository diseaseRepository;
 
     @Autowired
-    private GaiNian1TO1Repository gaiNian1TO1Repository;
-
-    @Autowired
-    private GaiNian1TOManyRepository gaiNian1TOManyRepository;
-
-    @Autowired
-    private GaiNianBeloneRepository gaiNianBeloneRepository;
-
-    @Autowired
     private OrignRepository orignRepository;
-
-    @Autowired
-    private GaiNianTYRepository gaiNianTYRepository;
 
     @Autowired
     private TreatMentRepository treatMentRepository;
@@ -56,15 +44,8 @@ public class FileUploadController {
     private GaiNianRepository gaiNianRepository;
 
 
-    private AchieveGaiNianBelone achieveGaiNianBelone = new AchieveGaiNianBelone();
-
-    private AchieveGaiNian1TOMany achieveGaiNian1TOMany = new AchieveGaiNian1TOMany();
-
-    private AchieveGaiNian1TO1 achieveGaiNian1TO1 = new AchieveGaiNian1TO1();
-
     private AchieveDisease achieveDisease = new AchieveDisease();
 
-    private AchieveGaiNianTY achieveGaiNianTY = new AchieveGaiNianTY();
 
     private AchieveTreatMent achieveTreatMent = new AchieveTreatMent();
 

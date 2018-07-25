@@ -9,5 +9,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  */
 
 public interface DiseaseRepository extends MongoRepository<Disease,String>{
-    public Disease findByName(String name);
+    Disease findByName(String name);
 }
